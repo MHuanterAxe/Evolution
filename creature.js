@@ -3,8 +3,9 @@ class Creature {
         this.position = createVector(x,y);
         this.velocity = createVector(0, 0);
         this.acceleration = createVector(0,0);
-        this.maxspeed = 10;
-        this.maxforce = 0.2;
+        this.maxspeed = 1;
+        this.maxforce = 0.1;
+        this.energy = 200;
     }
     display(){
         let angle = this.velocity.heading() + PI / 2;
@@ -21,7 +22,12 @@ class Creature {
         this.velocity.limit(this.maxspeed);
         this.position.add(this.velocity);
         this.acceleration.mult(0);
-
+        this.energy-=0.5;
+    }
+    isDead(){
+        if(this.energy < 1){
+            return false;
+        }
     }
     applyForce(force){
         this.acceleration.add(force);
@@ -47,6 +53,7 @@ class Creature {
         }
         if(record < list[closest].amount){
             list.splice(closest,1);
+            this.energy+=this.amount;
         } else if (closest > -1){
             this.seek(list[closest].position);
         }
