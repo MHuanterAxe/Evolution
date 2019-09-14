@@ -3,17 +3,17 @@ class Creature {
         this.position = createVector(x,y);
         this.velocity = createVector(0, 0);
         this.acceleration = createVector(0,0);
-        this.maxspeed = 8;
+        this.maxspeed = 10;
         this.maxforce = 0.2;
     }
-    draw(){
-        let theta = this.velocity.heading() + PI / 2;
+    display(){
+        let angle = this.velocity.heading() + PI / 2;
         push();
         noStroke();
-        fill(random(0, 255),random(0, 255),random(0, 255));
+        fill(255,0,0);
         ellipse(this.position.x, this.position.y, 8, 8);
         translate(this.position.x, this.position.y);
-        rotate(theta);
+        rotate(angle);
         pop();
     }
     update(){
@@ -33,5 +33,24 @@ class Creature {
         let steer = p5.Vector.sub(desired,this.velocity);
         steer.limit(this.maxforce);
         this.applyForce(steer);
+    }
+    eat(list){
+        let record = Infinity;
+        let closest = -1;
+        for (let i = 0; i < list.length; i++) {
+            const distance = dist(this.position.x, this.position.y, list[i].position.x, list[i].position.y);
+            if(distance < record){
+                record = distance;
+                closest = i;
+            }
+            
+        }
+        if(record < list[closest].amount){
+            list.splice(closest,1);
+        } else if (closest > -1){
+            this.seek(list[closest].position);
+        }
+        
+       
     }
 }
