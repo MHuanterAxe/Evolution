@@ -3,30 +3,40 @@ class Creature {
         this.position = createVector(x,y);
         this.velocity = createVector(0, 0);
         this.acceleration = createVector(0,0);
-        this.maxspeed = 1;
-        this.maxforce = 0.1;
-        this.energy = 200;
+        this.maxspeed = 2;
+        this.maxforce = 0.2;
+        this.energy = 100;
+        //this.mass = 1;
+    }
+    collision(){
+        let pos = this.position;
+        let size = this.energy*0.1;
+        if((pos.x+size) <= 0 && (pos.y+size) <= 0 && (pos.x-size) > fieldW && (pos.y-size) > fieldW ){
+            this.applyForce(-1);
+        }
     }
     display(){
         let angle = this.velocity.heading() + PI / 2;
         push();
         noStroke();
         fill(255,0,0);
-        ellipse(this.position.x, this.position.y, 8, 8);
+        this.energy-=0.1;
+        ellipse(this.position.x, this.position.y, this.energy*0.1, this.energy*0.1,);
         translate(this.position.x, this.position.y);
         rotate(angle);
         pop();
     }
     update(){
+        this.collision();
         this.velocity.add(this.acceleration);
         this.velocity.limit(this.maxspeed);
         this.position.add(this.velocity);
         this.acceleration.mult(0);
-        this.energy-=0.5;
+        
     }
     isDead(){
         if(this.energy < 1){
-            return false;
+            return true;
         }
     }
     applyForce(force){
@@ -52,8 +62,9 @@ class Creature {
             
         }
         if(record < list[closest].amount){
+            this.energy += list[closest].amount;
+            //this.mass += list[closest].amount;
             list.splice(closest,1);
-            this.energy+=this.amount;
         } else if (closest > -1){
             this.seek(list[closest].position);
         }
