@@ -5,15 +5,24 @@ class Creature {
         this.acceleration = createVector();
         this.maxspeed;
         this.maxforce;
-        this.energy;
+        this.energy = 100;
         this.multiplied = false;
         //this.mass = 1;
     }
     collision(){
-        let pos = this.position;
         let size = this.energy*0.1;
-        if((pos.x+size) <= 0 && (pos.y+size) <= 0 && (pos.x-size) > fieldW && (pos.y-size) > fieldW ){
-            this.applyForce(-1);
+        if(this.position.x < 0 + size){
+            this.position.x = fieldW - size;
+            
+        }  
+        if(this.position.y < 0 + size){
+            this.position.y = fieldH - size;
+        }
+        if(this.position.x > fieldW - size){
+            this.position.x = 0 + size;
+        }
+        if(this.position.y > fieldH - size){
+            this.position.y = 0 + size;
         }
     }
     display(){
@@ -28,11 +37,12 @@ class Creature {
         pop();
     }
     update(){
-        this.collision();
+        
         this.velocity.add(this.acceleration);
         this.velocity.limit(this.maxspeed);
         this.position.add(this.velocity);
         this.acceleration.mult(0);
+        this.collision();
     }
     isDead(){
         if(this.energy < 1){
