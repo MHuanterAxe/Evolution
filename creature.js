@@ -1,11 +1,12 @@
 class Creature {
     constructor(x = 0,y = 0){
         this.position = createVector(x,y);
-        this.velocity = createVector(0, 0);
-        this.acceleration = createVector(0,0);
-        this.maxspeed = 2;
-        this.maxforce = 0.2;
-        this.energy = 100;
+        this.velocity = createVector();
+        this.acceleration = createVector();
+        this.maxspeed;
+        this.maxforce;
+        this.energy;
+        this.multiplied = false;
         //this.mass = 1;
     }
     collision(){
@@ -19,7 +20,7 @@ class Creature {
         let angle = this.velocity.heading() + PI / 2;
         push();
         noStroke();
-        fill(255,0,0);
+        fill(255,1027,0);
         this.energy-=0.1;
         ellipse(this.position.x, this.position.y, this.energy*0.1, this.energy*0.1,);
         translate(this.position.x, this.position.y);
@@ -32,7 +33,6 @@ class Creature {
         this.velocity.limit(this.maxspeed);
         this.position.add(this.velocity);
         this.acceleration.mult(0);
-        
     }
     isDead(){
         if(this.energy < 1){
@@ -50,7 +50,7 @@ class Creature {
         steer.limit(this.maxforce);
         this.applyForce(steer);
     }
-    eat(list){
+    eatF(list){
         let record = Infinity;
         let closest = -1;
         for (let i = 0; i < list.length; i++) {
@@ -71,4 +71,11 @@ class Creature {
         
        
     }
+    breeding(){
+        if(this.energy >= 200){
+            this.energy = 0;
+            this.multiplied = true;
+        }
+    }
+
 }
