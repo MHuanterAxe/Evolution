@@ -25,7 +25,7 @@ function draw(){
     
     
     for (let creature = 0 ; creature < creatures.length;creature++) {
-        creatures[creature].eatF(food);
+        creatures[creature].eatF(food,50);
         creatures[creature].update();
         creatures[creature].display();
         creatures[creature].breeding();

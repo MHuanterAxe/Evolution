@@ -1,19 +1,20 @@
 class Creature {
     constructor(x = 0,y = 0){
+        // Phisical values
         this.position = createVector(x,y);
         this.velocity = createVector();
         this.acceleration = createVector();
         this.maxspeed;
         this.maxforce;
+        // Creature values
+        this.dna = [];
         this.energy = 100;
         this.multiplied = false;
-        //this.mass = 1;
     }
     collision(){
         let size = this.energy*0.1;
         if(this.position.x < 0 + size){
             this.position.x = fieldW - size;
-            
         }  
         if(this.position.y < 0 + size){
             this.position.y = fieldH - size;
@@ -37,7 +38,6 @@ class Creature {
         pop();
     }
     update(){
-        
         this.velocity.add(this.acceleration);
         this.velocity.limit(this.maxspeed);
         this.position.add(this.velocity);
@@ -45,35 +45,31 @@ class Creature {
         this.collision();
     }
     isDead(){
-        if(this.energy < 1){
-            return true;
-        }
+        return true ? this.energy <1 : null;
     }
     applyForce(force){
         this.acceleration.add(force);
     }
     seek(target){
         let desired = p5.Vector.sub(target, this.position);
-        
         desired.setMag(this.maxspeed);
         let steer = p5.Vector.sub(desired,this.velocity);
         steer.limit(this.maxforce);
         this.applyForce(steer);
     }
-    eatF(list){
+    eatF(list,radius){
         let record = Infinity;
         let closest = -1;
         for (let i = 0; i < list.length; i++) {
             const distance = dist(this.position.x, this.position.y, list[i].position.x, list[i].position.y);
-            if(distance < record){
+            if(distance < record && distance <= radius){
                 record = distance;
                 closest = i;
             }
             
         }
-        if(record < list[closest].amount){
+        if(record < 5){
             this.energy += list[closest].amount;
-            //this.mass += list[closest].amount;
             list.splice(closest,1);
         } else if (closest > -1){
             this.seek(list[closest].position);
