@@ -1,4 +1,4 @@
-let globalwidth = 1100, globalheight = 900,fieldW = 1000, fieldH = 600;
+let globalwidth = 1200, globalheight = 800,fieldW = 1200, fieldH = 600;
 let creatures = [];
 let food = [];
 let globalTime = 0;
@@ -18,11 +18,6 @@ function draw(){
     stroke(255);
     noFill();
     rect(0,0,fieldW,fieldH);
-
-    fill(255);
-    textSize(12);
-    text('global time ' + globalTime.toString(), 0,fieldH+10,150,fieldH+50);
-    
     
     for (let creature = 0 ; creature < creatures.length;creature++) {
         creatures[creature].eatF(food,50);
@@ -36,19 +31,19 @@ function draw(){
         }
         if(creatures[creature].isDead()){
             creatures.splice(creature,1);
-        }
-        if(creatures[creature] != null){
-            fill(255);
-            text(creature+ ' ' +floor(creatures[creature].energy).toString(),globalwidth-100,12*creature,globalwidth,50+12*creature);
-        }
-        
-        
+        }   
     }
     for (const f of food) {
         f.display();
     }
-    if(globalTime & 20){
+    if(globalTime & 50){
         food.push(new Food(random(20, fieldW-20),random(20, fieldH-20),random(7, 11)));
     }
+
     globalTime++;
+    fill(255);
+    textSize(12);
+    text('global time ' + (floor(globalTime*0.01)).toString(), 0,fieldH+10,150,fieldH+30);
+    text('Number of Creatures    ' + (creatures.length+1).toString() ,0,fieldH+30,150,fieldH+50);
+        
 }

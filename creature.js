@@ -32,7 +32,7 @@ class Creature {
         noStroke();
         fill(255,1027,0);
         this.energy-=0.1;
-        ellipse(this.position.x, this.position.y, this.energy*0.1, this.energy*0.1,);
+        ellipse(this.position.x, this.position.y, this.energy*0.05, this.energy*0.05);
         translate(this.position.x, this.position.y);
         rotate(angle);
         pop();

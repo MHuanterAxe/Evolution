@@ -7,7 +7,7 @@ class Food{
         push();
         noStroke();
         fill(0,255,0,100);
-        ellipse(this.position.x, this.position.y, this.amount, this.amount)
+        ellipse(this.position.x, this.position.y, this.amount*0.2, this.amount*0.2)
         pop();
     }
 }
